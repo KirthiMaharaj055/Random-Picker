@@ -127,6 +127,21 @@ body {
     margin-left: 18px;
 }
 
+/* Assign Teams button appearance - match main action buttons */
+.btn-assign{
+    background: linear-gradient(90deg,#36d1c6,#ff9a76);
+    color: #fff;
+    border-radius: 14px;
+    padding: 14px 20px;
+    min-height: 64px;
+    font-weight: 800;
+    box-shadow: 0 14px 36px rgba(12,16,22,0.08);
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+}
+
 /* small icon inside buttons */
 .btn-icon {
     width: 20px;

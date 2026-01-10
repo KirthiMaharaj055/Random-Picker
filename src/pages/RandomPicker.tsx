@@ -197,12 +197,14 @@ export default function RandomPicker() {
         <div style={{ marginTop: 12, display: 'flex', gap: 8, alignItems: 'center' }}>
           <input id="new-team" placeholder="New team name" style={{ flex: '1 0 260px', padding: 10, borderRadius: 8, border: '1px solid #eee' }} />
           <button onClick={() => { const el = document.getElementById('new-team') as HTMLInputElement; if (el) { addTeam(el.value); el.value = '' } }} style={{ padding: '10px 14px', borderRadius: 10, background: 'var(--teal-dark)', color: '#fff', border: 0 }}>Add Team</button>
-          <button onClick={assignTeams} style={{ padding: '10px 14px', borderRadius: 10, background: 'linear-gradient(90deg,#2fc9bf,#f08a66)', color: '#fff', border: 0 }}>Assign Teams</button>
         </div>
         <div className="actions">
           <button className="btn btn-teal" onClick={() => { setMode('pair'); assign() }} disabled={participants.length < 2}>
             <Gift className="w-5 h-5 mr-2" />
             Generate Secret Santa
+          </button>
+          <button className="btn btn-assign" onClick={assignTeams} disabled={teams.length === 0 || participants.length === 0}>
+            Assign Teams
           </button>
           <button className="btn btn-coral" onClick={() => { setMode('pick'); assign() }} disabled={participants.length < 1}>
             <Shuffle className="w-5 h-5 mr-2" />
