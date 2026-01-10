@@ -1,0 +1,26 @@
+.logo {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  font-weight: 800;
+  font-size: 40px;
+  background: linear-gradient(90deg, #2dd4bf, #3bc6c0, #fb7185, #f59e0b);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+.hero-sub {
+  color: var(--muted);
+  margin-top: 8px;
+  margin-bottom: 28px;
+}
+
+.logo::after {
+  content: '🎲';
+  margin-left: 12px;
+  transform: translateY(-6px);
+  display: inline-block;
+  animation: float 3s ease-in-out infinite;
+}

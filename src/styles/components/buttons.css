@@ -1,0 +1,67 @@
+.actions {
+  display: flex;
+  gap: 18px;
+  justify-content: center;
+  margin-top: 22px;
+}
+
+.actions .btn {
+  flex: 1;
+  min-height: 64px;
+  padding: 14px 20px;
+  border-radius: 14px;
+  border: 0;
+  font-weight: 800;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  box-shadow: 0 14px 36px rgba(12, 16, 22, 0.08);
+}
+
+.btn {
+  font-size: 16px;
+}
+
+.btn-teal {
+  background: linear-gradient(90deg, #26c7bc, #2bb6a8);
+  color: #fff;
+}
+
+.btn-coral {
+  background: linear-gradient(90deg, #f7a99a, #f08a66);
+  color: #fff;
+}
+
+.btn-icon {
+  width: 20px;
+  height: 20px;
+  display: inline-block;
+  flex: 0 0 20px;
+  color: rgba(255, 255, 255, 0.98);
+}
+
+.reveal-progress {
+  flex: 1;
+  height: 48px;
+  border-radius: 999px;
+  background: linear-gradient(90deg, #2fc9bf, #f08a66);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #fff;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.start-button {
+  display:inline-block;
+  background: linear-gradient(90deg,#2fc9bf,#f08a66);
+  color: white;
+  padding: 18px 36px;
+  border-radius: 12px;
+  font-weight: 800;
+  font-size: 18px;
+  box-shadow: 0 12px 30px rgba(12,16,22,0.06);
+}

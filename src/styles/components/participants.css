@@ -1,0 +1,47 @@
+.participants {
+  margin-top: 18px;
+}
+
+.participants ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.participants li {
+  display: flex;
+  justify-content: space-between;
+  padding: 10px 0;
+  border-bottom: 1px dashed #f0f2f4;
+  align-items: center;
+}
+
+.chips {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+  margin-top: 12px;
+}
+
+.chip {
+  background: var(--coral);
+  color: #fff;
+  padding: 8px 12px;
+  border-radius: 999px;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-weight: 600;
+  box-shadow: 0 6px 18px rgba(240, 130, 114, 0.12);
+}
+
+.chip-remove {
+  background: transparent;
+  border: 0;
+  color: #fff;
+  padding: 6px;
+  margin-left: 6px;
+  border-radius: 6px;
+  cursor: pointer;
+  opacity: 0.95;
+}

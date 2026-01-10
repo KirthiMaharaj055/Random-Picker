@@ -1,0 +1,100 @@
+@import '../styles/components/styles.css';
+
+/* Page-specific tweaks for Reveal */
+.reveal-fullscreen {
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: linear-gradient(135deg, #e8fbfa 0%, #fff0ef 100%)
+}
+
+.reveal-inner {
+    max-width: 760px;
+    width: 100%;
+    padding: 48px;
+    text-align: center
+}
+
+.reveal-hero {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 18px
+}
+
+.reveal-icon {
+    width: 64px;
+    height: 64px;
+    color: #2fc9bf
+}
+
+.reveal-title {
+    font-size: 40px;
+    margin: 0;
+    font-weight: 800
+}
+
+.reveal-sub {
+    color: #6b7280;
+    margin: 0
+}
+
+.start-button {
+    padding: 14px 36px;
+    border-radius: 12px;
+    border: 0;
+    background: linear-gradient(90deg, #2fc9bf, #f08a66);
+    color: #fff;
+    font-weight: 700;
+    box-shadow: 0 10px 30px rgba(16, 24, 40, 0.06)
+}
+
+.reveal-step {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 14px
+}
+
+.giver {
+    font-size: 20px;
+    color: #6b7280
+}
+
+.gift-emoji {
+    font-size: 40px;
+    margin: 0
+}
+
+.gift-text {
+    color: #6b7280;
+    margin: 0
+}
+
+.reveal-button {
+    padding: 14px 28px;
+    border-radius: 12px;
+    border: 0;
+    background: linear-gradient(90deg, #f08a66, #9b63f2);
+    color: #fff;
+    font-weight: 700;
+    display: inline-flex;
+    align-items: center;
+    gap: 10px
+}
+
+.revealed .receiver {
+    font-size: 48px;
+    font-weight: 800;
+    color: #8b5cf6
+}
+
+.next-button {
+    padding: 12px 28px;
+    border-radius: 10px;
+    border: 0;
+    background: linear-gradient(90deg, #2fc9bf, #f08a66);
+    color: #fff;
+    font-weight: 700
+}

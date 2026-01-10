@@ -1,0 +1,92 @@
+/* reveal flip card */
+.card-reveal {
+  position: relative;
+  width: 100%;
+  max-width: 520px;
+  margin: 8px 0;
+  perspective: 1000px;
+}
+
+.card-reveal .front,
+.card-reveal .back {
+  backface-visibility: hidden;
+  transition: transform 420ms cubic-bezier(.2, .9, .3, 1);
+  border-radius: 10px;
+  padding: 12px;
+  border: 1px solid #f0f2f4;
+  background: #fff;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.card-reveal .back {
+  position: absolute;
+  left: 0;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  transform: rotateY(180deg);
+  background: linear-gradient(90deg, var(--teal), var(--coral));
+  color: #fff;
+}
+
+.card-reveal.flipped .front {
+  transform: rotateY(180deg);
+}
+
+.card-reveal.flipped .back {
+  transform: rotateY(360deg);
+}
+
+/* reveal bar and overlay styling */
+.reveal-bar {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-top: 12px;
+}
+
+.reset-small {
+  margin-left: 12px;
+  padding: 10px 14px;
+  border-radius: 10px;
+  border: 1px solid #eef2f6;
+  background: #fff;
+  cursor: pointer;
+}
+
+.overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(10, 12, 18, 0.6);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 60;
+}
+
+.overlay-close {
+  position: absolute;
+  right: 20px;
+  top: 18px;
+  background: transparent;
+  border: 0;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.overlay-content {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.overlay-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 12px;
+  background: #fbfbfe;
+  border-radius: 10px;
+}

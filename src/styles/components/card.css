@@ -1,0 +1,35 @@
+.card {
+  background: var(--card);
+  border-radius: 14px;
+  box-shadow: 0 12px 40px rgba(14, 22, 36, 0.06);
+  padding: 28px 28px 22px 28px;
+  max-width: 880px;
+  margin: 0 auto 28px;
+}
+
+.winner {
+  display: flex;
+  gap: 12px;
+  justify-content: center;
+  align-items: center;
+  padding: 18px;
+}
+
+.overlay-inner {
+  background: #fff;
+  border-radius: 14px;
+  padding: 20px;
+  max-width: 900px;
+  width: 90%;
+  max-height: 90%;
+  overflow: auto;
+}
+
+.overlay-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 12px;
+  background: #fbfbfe;
+  border-radius: 10px;
+}
