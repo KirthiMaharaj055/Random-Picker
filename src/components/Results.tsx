@@ -1,14 +1,38 @@
 import React, { useState } from 'react'
 import { Participant } from '../pages/RandomPicker'
+
+type Team = { id: string; name: string }
+
 export default function Results({ participants, pairs, matches, onReset }: { participants: Participant[]; pairs: Record<string, string> | null; matches?: { giver: string; receiver: string }[]; onReset?: () => void }) {
   const winnerId = pairs?.['winner']
   const [revealed, setRevealed] = useState<string | null>(null)
   const [fullscreen, setFullscreen] = useState(false)
 
+  // read teams from storage so we can show nice team names when available
+  let storedTeams: Team[] = []
+  try {
+    const raw = localStorage.getItem('random-picker:teams')
+    if (raw) storedTeams = JSON.parse(raw)
+  } catch (e) {
+    storedTeams = []
+  }
+
+  const teamNameMap = new Map<string, string>(storedTeams.map((t) => [t.id, t.name]))
+
   const showFor = (id?: string) => {
     if (!id) return
     setRevealed((r) => (r === id ? null : id))
   }
+
+  // group participants by teamId (or unassigned)
+  const grouped = new Map<string, Participant[]>()
+  participants.forEach((p) => {
+    const key = p.teamId ?? '__unassigned'
+    if (!grouped.has(key)) grouped.set(key, [])
+    grouped.get(key)!.push(p)
+  })
+
+  const hasTeams = storedTeams.length > 0 || Array.from(grouped.keys()).some((k) => k !== '__unassigned')
 
   return (
     <div className="results card">
@@ -20,6 +44,33 @@ export default function Results({ participants, pairs, matches, onReset }: { par
         </div>
         <button className="reset-small" onClick={() => onReset?.()}>Reset All</button>
       </div>
+
+      {hasTeams && (
+        <div className="teams">
+          {storedTeams.map((t) => (
+            <div key={t.id} className="team-card">
+              <div className="team-header">{t.name}</div>
+              <div className="team-members">
+                {grouped.get(t.id)?.map((p) => (
+                  <div key={p.id} className="chip">{p.name}</div>
+                )) ?? <div className="chip muted">(no members)</div>}
+              </div>
+            </div>
+          ))}
+
+          {/* show unassigned */}
+          {grouped.has('__unassigned') && (
+            <div className="team-card">
+              <div className="team-header">Unassigned</div>
+              <div className="team-members">
+                {grouped.get('__unassigned')!.map((p) => (
+                  <div key={p.id} className="chip">{p.name}</div>
+                ))}
+              </div>
+            </div>
+          )}
+        </div>
+      )}
 
       {pairs ? (
         winnerId ? (
