@@ -118,10 +118,6 @@ export default function RandomPicker() {
         const newTeams: Team[] = Array.from({ length: numTeams }, (_, i) => 
             ({ id: cryptoRandomId(), name: `Team ${i + 1}`, members: []}))
 
-        // const newTeams: Team[] = Array.from({ length: numTeams }, (_, i) => ({
-        //     name: `Team ${i + 1}`,
-        //     members: [],
-        // }));[]
 
         shuffled.forEach((participant, index) => {
             newTeams[index % numTeams].members.push(participant.name);
@@ -145,12 +141,18 @@ export default function RandomPicker() {
             const winner = pickOne(participants)
             if (!winner) return alert('No participants')
             burstConfetti()
+            // Show popup toast with winner's name
+            toast.success(`🎉 Winner: ${winner.name}!`, { duration: 4200 })
             // store winner id only
             setMatches([])
             setPairs({ winner: winner.id })
             localStorage.setItem(PAIRING_KEY, JSON.stringify({ winner: winner.id }))
             return
         }
+
+        // Always clear previous state before generating new matches
+        setPairs(null)
+        setMatches([])
 
         try {
             const ids = participants.map((p) => p.id)
