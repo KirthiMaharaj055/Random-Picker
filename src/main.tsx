@@ -13,23 +13,12 @@ import RevealPage from './pages/Reveal'
 import NotFound from './pages/NotFound'
 
 const root = createRoot(document.getElementById('root')!)
-const path = window.location.pathname
-if (path === '/reveal') {
-  root.render(
-    <React.StrictMode>
-      <RevealPage />
-    </React.StrictMode>
-  )
-} else if (path === '/' || path === '') {
-  root.render(
-    <React.StrictMode>
-      <App />
-    </React.StrictMode>
-  )
-} else {
-  root.render(
-    <React.StrictMode>
-      <NotFound />
-    </React.StrictMode>
-  )
+const renderRoute = () => {
+  const path = window.location.hash.slice(1) || '/'
+  const page = path === '/reveal' ? <RevealPage /> : path === '/' ? <App /> : <NotFound />
+
+  root.render(<React.StrictMode>{page}</React.StrictMode>)
 }
+
+renderRoute()
+window.addEventListener('hashchange', renderRoute)

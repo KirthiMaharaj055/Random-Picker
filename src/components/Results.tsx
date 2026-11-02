@@ -39,7 +39,7 @@ export default function Results({ participants, pairs, matches, onReset }: { par
       <h3 style={{ textAlign: 'left' }}>Secret Santa Results</h3>
       <p style={{ textAlign: 'left', color: 'var(--muted)', marginTop: 6 }}>Reveal one at a time to keep it secret!</p>
       <div className="reveal-bar">
-        <div className="reveal-progress" onClick={() => (window.location.pathname = '/reveal')}>
+        <div className="reveal-progress" onClick={() => (window.location.hash = '/reveal')}>
           <span>↗ Fullscreen Reveal Mode</span>
         </div>
         <button className="reset-small" onClick={() => onReset?.()}>Reset All</button>

@@ -54,7 +54,7 @@ export default function RevealPage() {
       setShowing(false)
     } else {
       // finished
-      window.location.href = '/'
+      window.location.hash = '/'
     }
   }
 
