@@ -52,22 +52,14 @@ export type Team = { id: string; name: string ,  members: string[];}
 
 const STORAGE_KEY = 'random-picker:participants'
 const PAIRING_KEY = 'random-picker:pairs'
+const MATCHES_KEY = 'random-picker:matches'
 
 export default function RandomPicker() {
-    const [participants, setParticipants] = useState<Participant[]>([])
-    const [pairs, setPairs] = useState<Record<string, string> | null>(null)
-    const [matches, setMatches] = useState<{ giver: string; receiver: string }[]>([])
-    const [teams, setTeams] = useState<Team[]>([]);
+    const [participants, setParticipants] = useState<Participant[]>(() => readStoredJson<Participant[]>(STORAGE_KEY, []))
+    const [pairs, setPairs] = useState<Record<string, string> | null>(() => readStoredJson(PAIRING_KEY, null))
+    const [matches, setMatches] = useState<{ giver: string; receiver: string }[]>(() => readStoredJson(MATCHES_KEY, []))
+    const [teams, setTeams] = useState<Team[]>(() => readStoredJson('random-picker:teams', []));
     const [numberOfTeams, setNumberOfTeams] = useState<string>("2");
-
-    useEffect(() => {
-        const raw = localStorage.getItem(STORAGE_KEY)
-        if (raw) setParticipants(JSON.parse(raw))
-        const p = localStorage.getItem(PAIRING_KEY)
-        if (p) setPairs(JSON.parse(p))
-        const t = localStorage.getItem('random-picker:teams')
-        if (t) setTeams(JSON.parse(t))
-    }, [])
 
     useEffect(() => {
         localStorage.setItem(STORAGE_KEY, JSON.stringify(participants))
@@ -119,11 +111,18 @@ export default function RandomPicker() {
             ({ id: cryptoRandomId(), name: `Team ${i + 1}`, members: []}))
 
 
+        const teamIdsByParticipantId: Record<string, string> = {}
         shuffled.forEach((participant, index) => {
-            newTeams[index % numTeams].members.push(participant.name);
+            const team = newTeams[index % numTeams]
+            team.members.push(participant.name)
+            teamIdsByParticipantId[participant.id] = team.id
         });
 
         setTeams(newTeams);
+        setParticipants((current) => current.map((participant) => {
+            const teamId = teamIdsByParticipantId[participant.id]
+            return teamId ? { ...participant, teamId } : participant
+        }))
         setShowConfetti(true);
         setTimeout(() => setShowConfetti(false), 5000);
         toast.success(`${numTeams} teams created!`);
@@ -134,9 +133,7 @@ export default function RandomPicker() {
     };
 
 
-    const [mode, setMode] = useState<'pair' | 'pick'>('pair')
-
-    const assign = () => {
+    const assign = (mode: 'pair' | 'pick') => {
         if (mode === 'pick') {
             const winner = pickOne(participants)
             if (!winner) return alert('No participants')
@@ -147,12 +144,15 @@ export default function RandomPicker() {
             setMatches([])
             setPairs({ winner: winner.id })
             localStorage.setItem(PAIRING_KEY, JSON.stringify({ winner: winner.id }))
+            localStorage.removeItem(MATCHES_KEY)
             return
         }
 
         // Always clear previous state before generating new matches
         setPairs(null)
         setMatches([])
+        localStorage.removeItem(PAIRING_KEY)
+        localStorage.removeItem(MATCHES_KEY)
 
         try {
             const ids = participants.map((p) => p.id)
@@ -171,7 +171,7 @@ export default function RandomPicker() {
             setMatches(generatedMatches)
             localStorage.setItem(PAIRING_KEY, JSON.stringify(map))
             // persist matches so the fullscreen reveal page can load them
-            localStorage.setItem('random-picker:matches', JSON.stringify(generatedMatches))
+            localStorage.setItem(MATCHES_KEY, JSON.stringify(generatedMatches))
             burstConfetti()
         } catch (e) {
             alert('Could not create pairings: ' + (e as Error).message)
@@ -182,6 +182,7 @@ export default function RandomPicker() {
         setPairs(null)
         setMatches([])
         localStorage.removeItem(PAIRING_KEY)
+        localStorage.removeItem(MATCHES_KEY)
     }
 
     const exportPairs = () => {
@@ -219,11 +220,11 @@ export default function RandomPicker() {
                     <ParticipantsList items={participants} onRemove={remove} teams={teams} onRemoveTeam={removeTeam} />
                 </div>
                 <div className="actions">
-                    <button className="btn btn-teal" onClick={() => { setMode('pair'); assign() }} disabled={participants.length < 2}>
+                    <button className="btn btn-teal" onClick={() => assign('pair')} disabled={participants.length < 2}>
                         <Gift className="w-5 h-5 mr-2" />
                         Generate Secret Santa
                     </button>
-                    <button className="btn btn-coral" onClick={() => { setMode('pick'); assign() }} disabled={participants.length < 1}>
+                    <button className="btn btn-coral" onClick={() => assign('pick')} disabled={participants.length < 1}>
                         <Shuffle className="w-5 h-5 mr-2" />
                         Pick Random Winner
                     </button>
@@ -248,7 +249,7 @@ export default function RandomPicker() {
             {/* Team Assignments Card Section */}
             <TeamAssignments teams={teams} onClear={() => setTeams([])} />
             <div style={{ height: 10 }} />
-            {matches.length > 0 && (
+            {(matches.length > 0 || Boolean(pairs?.winner)) && (
                 <Results participants={participants} pairs={pairs} matches={matches} onReset={reset} />
             )}
         </div>
@@ -257,6 +258,15 @@ export default function RandomPicker() {
 
 function cryptoRandomId() {
     return Math.random().toString(36).slice(2, 9)
+}
+
+function readStoredJson<T>(key: string, fallback: T): T {
+    try {
+        const raw = localStorage.getItem(key)
+        return raw ? JSON.parse(raw) as T : fallback
+    } catch {
+        return fallback
+    }
 }
 function setShowConfetti(arg0: boolean): void {
     // Placeholder for confetti effect
